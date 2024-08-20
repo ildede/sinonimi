@@ -22,6 +22,11 @@ window.toSearch = function (word) {
 window.runSearch = function (word) {
     const search = word.replace(/[^a-z0-9]/gi, '');
     const found = loadedKeys.filter((k) => k.includes(search));
+    found.sort((a,b) => {
+        const wordA = a.replace(/[^a-z]/gi, '')
+        const wordB = b.replace(/[^a-z]/gi, '')
+        return wordA === wordB ? 0 : (wordA === search ? -1 : (wordB === search ? 1 : 0))
+    });
     tbody.innerHTML = '';
     for (const e of found) {
         const element = loadedJson[e];
