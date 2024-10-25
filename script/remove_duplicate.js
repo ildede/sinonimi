@@ -15,7 +15,7 @@ keysWithNumbers.forEach((keyWithNumber) => {
         return;
     } else {
         const mergedElement = {
-            parola: key,
+            parola: originalElement.parola,
             sinonimi: [...originalElement.sinonimi, ...duplicatedElement.sinonimi],
             contrari: [...originalElement.contrari, ...duplicatedElement.contrari],
         }
