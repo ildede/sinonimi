@@ -40,8 +40,12 @@ window.runSearch = function (word) {
         tbody.append(rowElement);
     }
     for (let el of tbody.getElementsByTagName('a')) {
-        el.setAttribute('href', '#');
-        el.setAttribute('onclick', 'toSearch(this.innerHTML);runSearch(this.innerHTML);return false;');
+        el.innerHTML;
+        const url = new URL(window.location.href);
+        const search = url.searchParams.get('search')
+        url.searchParams.set('search', el.innerHTML);
+        el.setAttribute('href', `${url.toString()}`);
+        // el.setAttribute('onclick', 'toSearch(this.innerHTML);runSearch(this.innerHTML);return false;');
     }
 }
 
@@ -65,7 +69,7 @@ const data = fetch('./result.json')
         if (search) {
             toSearch(search.toLowerCase());
             runSearch(search.toLowerCase());
-            url.searchParams.delete('search');
-            history.replaceState(history.state, '', url.href);
+            // url.searchParams.delete('search');
+            // history.replaceState(history.state, '', url.href);
         }
     });
