@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "wrangler": "^3.109.1"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  }
+}
