@@ -1,6 +1,10 @@
 import { Client } from '@neondatabase/serverless';
 
-export async function onRequestPost(context) {
+interface Env {
+    DATABASE_URL: string;
+}
+
+export const onRequestPost: PagesFunction<Env> = async (context) => {
     const client = new Client(context.env.DATABASE_URL);
     const [_, searchEvent] = await Promise.all([
         await client.connect(),

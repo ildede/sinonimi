@@ -43,7 +43,7 @@ window.runSearch = function (word, origin) {
         el.setAttribute('href', '#');
         el.setAttribute('onclick', 'toSearch(this.innerHTML);runSearch(this.innerHTML, "onClick");return false;');
     }
-    navigator.sendBeacon('http://localhost:8788/events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, version: 1 }));
+    navigator.sendBeacon('events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, version: 1 }));
 }
 
 const data = fetch('./result.json')
