@@ -19,7 +19,7 @@ window.toSearch = function (word) {
     input.value = word;
 }
 
-window.runSearch = function (word) {
+window.runSearch = function (word, origin) {
     const search = word.replace(/[^a-z0-9]/gi, '');
     const found = loadedKeys.filter((k) => k.includes(search));
     found.sort((a,b) => {
@@ -41,8 +41,9 @@ window.runSearch = function (word) {
     }
     for (let el of tbody.getElementsByTagName('a')) {
         el.setAttribute('href', '#');
-        el.setAttribute('onclick', 'toSearch(this.innerHTML);runSearch(this.innerHTML);return false;');
+        el.setAttribute('onclick', 'toSearch(this.innerHTML);runSearch(this.innerHTML, "onClick");return false;');
     }
+    navigator.sendBeacon('events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, version: 1 }));
 }
 
 const data = fetch('./result.json')
@@ -56,7 +57,7 @@ const data = fetch('./result.json')
                 tbody.innerHTML = '<tr><td>...</td><td>...</td><td>...</td></tr>';
                 return;
             }
-            runSearch(inputValue.toLowerCase());
+            runSearch(inputValue.toLowerCase(), 'onKeyup');
         };
         input.addEventListener("keyup", debounce(onKeyup, 250));
 
