@@ -11,10 +11,11 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         await context.request.json(),
     ]);
 
-    const resp = await client.query('INSERT INTO search_events (timestamp, version, origin, term) VALUES (current_timestamp, $1, $2, $3);', [
+    const resp = await client.query('INSERT INTO search_events (timestamp, version, origin, term, context) VALUES (current_timestamp, $1, $2, $3, $4);', [
         searchEvent.version,
         searchEvent.origin,
-        searchEvent.term
+        searchEvent.term,
+        JSON.stringify(searchEvent.context),
     ]);
     if (resp.rowCount !== 1) {
         console.log('Error writing search event', searchEvent);
