@@ -12,7 +12,9 @@ const toLinks = (e) => {
 }
 
 const toLink = (e) => {
-    return `<a>${e}</a>`
+    const url = new URL(window.location.href);
+    url.searchParams.set('search', e);
+    return `<a href="${url.toString()}">${e}</a>`
 }
 
 window.toSearch = function (word) {
@@ -39,11 +41,7 @@ window.runSearch = function (word, origin, context) {
         }
         tbody.append(rowElement);
     }
-    for (let el of tbody.getElementsByTagName('a')) {
-        el.setAttribute('href', '#');
-        el.setAttribute('onclick', 'toSearch(this.innerHTML);runSearch(this.innerHTML, "onClick");return false;');
-    }
-    navigator.sendBeacon('events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, context: { found: found.length, ...context }, version: 2 }));
+    navigator.sendBeacon('events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, context: { found: found.length, ...context }, version: 3 }));
 }
 
 const data = fetch('./result.json')
@@ -59,14 +57,12 @@ const data = fetch('./result.json')
             }
             runSearch(inputValue.toLowerCase(), 'onKeyup', { key: e.key });
         };
-        input.addEventListener("keyup", debounce(onKeyup, 250));
+        input.addEventListener("keyup", debounce(onKeyup, 300));
 
         const url = new URL(window.location.href);
         const search = url.searchParams.get('search')
         if (search) {
             toSearch(search.toLowerCase());
-            runSearch(search.toLowerCase());
-            url.searchParams.delete('search');
-            history.replaceState(history.state, '', url.href);
+            runSearch(search.toLowerCase(), 'onSearchParams');
         }
     });
