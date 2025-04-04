@@ -41,7 +41,7 @@ window.runSearch = function (word, origin, context) {
         }
         tbody.append(rowElement);
     }
-    navigator.sendBeacon('events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, context: { found: found.length, ...context }, version: 2 }));
+    navigator.sendBeacon('events/search', JSON.stringify({ term: `${word}`, origin: `${origin}`, context: { found: found.length, ...context }, version: 3 }));
 }
 
 const data = fetch('./result.json')
