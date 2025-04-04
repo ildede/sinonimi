@@ -57,7 +57,7 @@ const data = fetch('./result.json')
             }
             runSearch(inputValue.toLowerCase(), 'onKeyup', { key: e.key });
         };
-        input.addEventListener("keyup", debounce(onKeyup, 250));
+        input.addEventListener("keyup", debounce(onKeyup, 300));
 
         const url = new URL(window.location.href);
         const search = url.searchParams.get('search')
